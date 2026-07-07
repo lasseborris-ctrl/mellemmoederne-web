@@ -37,7 +37,7 @@
               '<h3>' + t.title + '</h3>' +
               '<p>' + t.description + '</p>' +
               '<div class="tool-meta">' + t.date + '</div>' +
-              '<a class="btn-ghost" href="/assets/pdfs/' + t.filename + '" download>Download PDF</a>' +
+              '<a class="btn-ghost" href="/assets/pdfs/' + encodeURIComponent(t.filename) + '" download>Download PDF</a>' +
             '</div>';
         }).join('');
       })
