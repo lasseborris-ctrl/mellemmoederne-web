@@ -104,9 +104,11 @@ section { padding: 72px 0; border-top: 1px solid var(--rule-soft); }
   border-radius: 10px; color: var(--ink3); font-size: 12px; text-align: center;
   padding: 12px;
 }
-.about-photo { width: 220px; height: 260px; min-width: 0; max-width: 100%; display: block; overflow: hidden; }
+.about-photo-wrap { width: 220px; min-width: 0; max-width: 100%; }
+.about-photo { width: 100%; height: 260px; min-width: 0; display: block; overflow: hidden; }
 .about-photo.photo-placeholder { display: flex; }
 img.about-photo { object-fit: cover; object-position: 50% 20%; border-radius: 10px; }
+.photo-credit { font-size: 11px; color: var(--ink3); margin: 8px 0 0; line-height: 1.4; }
 .portfolio-shot.photo-placeholder { width: 100%; aspect-ratio: 4/3; border-radius: 10px; box-shadow: none; }
 
 /* ---- services ---- */
@@ -189,6 +191,7 @@ footer a:hover { color: var(--ink); }
   .wrap { padding: 0 22px; }
   .hero h1 { font-size: 38px; }
   .about-grid, .services-grid, .why-grid, .portfolio-panel, .tools-grid { grid-template-columns: 1fr; }
-  .about-photo { width: 160px; height: 190px; }
+  .about-photo-wrap { width: 160px; }
+  .about-photo { height: 190px; }
   .nav-links { display: none; }
 }
