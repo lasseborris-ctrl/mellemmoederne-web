@@ -28,7 +28,7 @@
       .then(function (r) { return r.json(); })
       .then(function (tools) {
         if (!tools.length) {
-          grid.innerHTML = '<div class="tools-empty">Det første værktøj er på vej — kig forbi igen snart.</div>';
+          grid.innerHTML = '<div class="tools-empty">Det første værktøj er på vej. Kig forbi igen snart.</div>';
           return;
         }
         grid.innerHTML = tools.map(function (t) {
