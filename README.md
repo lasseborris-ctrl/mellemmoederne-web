@@ -1,37 +1,35 @@
 # mellemmoederne-web
 
-Offentlig landingsside for MellemMøderne (Lasse B. Schnipper). Ren statisk HTML/CSS/JS — ingen build-step, intet framework. Hostes via Cloudflare Pages, koblet direkte til dette GitHub-repo: hvert push til `main` deployer automatisk.
+Offentlig landingsside for Mellem Møderne (Lasse B. Schnipper). Ren statisk HTML/CSS/JS, ingen build-step, intet framework. Hostes via Cloudflare Pages, koblet direkte til dette GitHub-repo: hvert push til `main` deployer automatisk.
 
 ## Struktur
 
 ```
-index.html            Forside (about, services, why, work, faq, kontakt)
-vaerktoejer/index.html PDF-værktøjsbibliotek
-assets/style.css       Fælles design (farver, typografi, komponenter)
-assets/site.js         Theme-toggle, FAQ-toggle, render af værktøjsliste
-assets/tools.json      Manifest over de udgivne PDF-værktøjer
-assets/pdfs/           De faktiske PDF-filer
+index.html                                Forside (om mig, ydelser, hvorfor, presse, faq, kontakt)
+vaerktoejer/index.html                    Statisk oversigt over værktøjsserien
+vaerktoejer/<slug>/index.html             Én statisk side pr. værktøj
+privatliv/index.html                      Privatlivsside
+assets/style.css                          Fælles design (farver, typografi, komponenter)
+assets/site.js                            Theme-toggle og FAQ-toggle
+assets/img/lasse.jpg                      Portrætfoto
+assets/og/                                Statiske OG-billeder (1200×630) pr. værktøj
+content/                                  Kildemateriale for værktøjerne (ikke publiceret direkte)
 ```
 
-## Sådan tilføjer du et nyt PDF-værktøj
+## Sådan tilføjer du et nyt værktøj
 
-1. Læg PDF-filen i `assets/pdfs/`, f.eks. `assets/pdfs/moede-tjekliste.pdf`.
-2. Åbn `assets/tools.json` og tilføj et objekt til listen:
+Værktøjerne er håndskrevne statiske sider, ikke en genereret liste. Der er ingen JSON-manifest eller build-step.
 
-   ```json
-   {
-     "title": "Møde-tjekliste",
-     "description": "Kort beskrivelse af hvad værktøjet hjælper med.",
-     "filename": "moede-tjekliste.pdf",
-     "date": "2026-07-07"
-   }
-   ```
+1. Opret `vaerktoejer/<slug>/index.html` efter samme opskrift som de eksisterende værktøjssider: `.article-hero`, `.article-section` med `.case-card` / `.quote-stack` / `.pull-quote` efter behov, kolofon og `.pdf-request`-blokken i bunden.
+2. Tilføj `og:title`, `og:description`, `og:image` (se eksisterende sider) og generér et 1200×630 OG-billede til `assets/og/<slug>.png`.
+3. Tilføj et kort til `vaerktoejer/index.html` der linker til den nye side.
+4. Commit og push til `main`. Cloudflare Pages bygger og udgiver automatisk, ingen andre skridt.
 
-3. Commit og push til `main`. Cloudflare Pages bygger og udgiver automatisk — ingen andre skridt.
+## PDF-format
 
-Er listen tom, viser siden en pæn "på vej"-besked i stedet for at se tom/fejlbehæftet ud.
+Værktøjerne er frie at læse som HTML på siderne. PDF-versionen ligger ikke offentligt tilgængelig i repoet eller på sitet, den rekvireres pr. mail: besøgende skriver til `lasse@mellemmoederne.dk` (emnefelt "håndtag"), og PDF'en sendes manuelt. Mailadresser gemmes ikke til fremtidig brug, se `privatliv/index.html`.
 
-## Cloudflare Pages — opsætning (én gang)
+## Cloudflare Pages, opsætning (én gang)
 
 1. Log ind på Cloudflare Dashboard → **Workers & Pages** → **Create application** → **Pages** → **Connect to Git**.
 2. Vælg dette repo (`lasseborris-ctrl/mellemmoederne-web`) og branch `main`.
@@ -49,4 +47,4 @@ Forudsætning: domænets nameservers peger allerede på Cloudflare (bekræftet).
 
 ## E-mail
 
-Kontakt-adressen `lasse@mellemmoederne.dk` bruges direkte som `mailto:`-link. Hvis Cloudflare's "Email Address Obfuscation" er slået til for zonen, obfuskerer Cloudflare selv adressen ved levering — det kræver ingen håndkodning her.
+Kontakt-adressen `lasse@mellemmoederne.dk` bruges direkte som `mailto:`-link. Hvis Cloudflare's "Email Address Obfuscation" er slået til for zonen, obfuskerer Cloudflare selv adressen ved levering, det kræver ingen håndkodning her.
