@@ -21,28 +21,4 @@
       if (!wasOpen) item.classList.add('open');
     });
   });
-
-  var grid = document.getElementById('tools-grid');
-  if (grid) {
-    fetch('/assets/tools.json')
-      .then(function (r) { return r.json(); })
-      .then(function (tools) {
-        if (!tools.length) {
-          grid.innerHTML = '<div class="tools-empty">Det første værktøj er på vej. Kig forbi igen snart.</div>';
-          return;
-        }
-        grid.innerHTML = tools.map(function (t) {
-          return '' +
-            '<div class="tool-card">' +
-              '<h3>' + t.title + '</h3>' +
-              '<p>' + t.description + '</p>' +
-              '<div class="tool-meta">' + t.date + '</div>' +
-              '<a class="btn-ghost" href="/assets/pdfs/' + encodeURIComponent(t.filename) + '" download>Download PDF</a>' +
-            '</div>';
-        }).join('');
-      })
-      .catch(function () {
-        grid.innerHTML = '<div class="tools-empty">Værktøjerne kunne ikke indlæses lige nu.</div>';
-      });
-  }
 })();
