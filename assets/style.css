@@ -320,6 +320,20 @@ footer a:hover { color: var(--ink); }
 
 .press-mediation { font-size: 14px; color: var(--ink3); margin: 0 0 20px; font-style: italic; }
 
+/* fodnote (kildehenvisning) */
+.footnote-block {
+  margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--rule);
+  font-size: 13px; line-height: 1.55; color: var(--ink3); max-width: 600px;
+}
+
+/* skrivefelt i sagskort */
+.write-field { margin-top: 12px; }
+.write-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--ink3);
+}
+.write-line { display: block; border-bottom: 1px dashed var(--rule); height: 30px; margin: 4px 0 16px; }
+
 @media (max-width: 860px) {
   .wrap { padding: 0 22px; }
   .hero h1 { font-size: 38px; }

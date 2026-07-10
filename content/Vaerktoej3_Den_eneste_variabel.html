@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forandringens håndtag sidder indvendig · Værktøj 3</title>
+<style>
+
+:root {
+  --paper:  #F6F5F1;
+  --ink:    #1F1E1B;
+  --muted:  #6E675C;
+  --line:   #DDD8CC;
+  --amber:  #B4690E;
+  --card:   #FFFFFF;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background:#3A3833;
+  font-family:'Public Sans', sans-serif;
+  color:var(--ink);
+  font-size:10.5pt;
+  line-height:1.58;
+  -webkit-font-smoothing:antialiased;
+}
+
+.page {
+  width:210mm;
+  min-height:297mm;
+  background:var(--paper);
+  margin:10mm auto;
+  padding:20mm 22mm 24mm 22mm;
+  position:relative;
+  box-shadow:0 4px 30px rgba(0,0,0,.35);
+}
+
+/* ---------- utilities ---------- */
+.mono { font-family:'IBM Plex Mono', monospace; }
+.eyebrow {
+  font-family:'IBM Plex Mono', monospace;
+  font-size:7.5pt; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--muted); font-weight:500;
+}
+.eyebrow .amber { color:var(--amber); }
+h1, h2, .display { font-family:'Fraunces', serif; font-variation-settings:'opsz' 90, 'SOFT' 0, 'WONK' 0; }
+
+p { margin-bottom:9pt; }
+p:last-child { margin-bottom:0; }
+em { font-style:italic; }
+
+.rule { border:none; border-top:1px solid var(--line); margin:14pt 0; }
+
+/* ---------- cover ---------- */
+.cover { display:flex; flex-direction:column; }
+.cover .stamp-time {
+  font-family:'IBM Plex Mono', monospace; font-size:8pt; letter-spacing:.1em;
+  color:var(--muted); margin-bottom:34mm;
+  display:flex; justify-content:space-between;
+}
+.cover h1 {
+  font-size:33pt; line-height:1.08; font-weight:590; letter-spacing:-.01em;
+  margin-bottom:7pt;
+}
+.cover .subtitle {
+  font-family:'IBM Plex Mono', monospace; font-size:9pt; letter-spacing:.06em;
+  color:var(--amber); font-weight:500; margin-bottom:16mm;
+}
+.cover .lead p { font-size:11pt; line-height:1.65; max-width:150mm; }
+.cover .promise {
+  margin-top:12mm;
+  font-family:'Fraunces', serif; font-style:italic; font-weight:480;
+  font-size:15.5pt; line-height:1.42; color:var(--ink);
+  max-width:152mm;
+}
+.cover .promise strong { font-style:normal; font-weight:600; color:var(--amber); }
+.cover .series-note {
+  margin-top:auto; padding-top:10mm;
+  font-size:8.5pt; color:var(--muted); max-width:130mm;
+}
+
+/* ---------- sections ---------- */
+.sec-head { margin-bottom:9mm; }
+.sec-head .eyebrow { display:block; margin-bottom:4pt; }
+.sec-head h2 { font-size:21pt; font-weight:590; letter-spacing:-.005em; line-height:1.15; }
+.sec-head .headrule { width:16mm; border:none; border-top:2.5px solid var(--amber); margin-top:7pt; }
+
+.body-col { max-width:152mm; }
+
+/* ---------- ticket card ---------- */
+.ticket {
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:3px;
+  margin:11pt 0;
+  position:relative;
+  overflow:visible;
+}
+.ticket .t-head {
+  display:flex; justify-content:space-between; align-items:baseline;
+  padding:9pt 12pt 7pt 12pt;
+  border-bottom:1px solid var(--line);
+}
+.ticket .t-id { font-family:'IBM Plex Mono', monospace; font-weight:500; font-size:11pt; letter-spacing:.03em; }
+.ticket .t-id .dash { color:var(--amber); }
+.ticket .t-status {
+  font-family:'IBM Plex Mono', monospace; font-size:7.5pt; letter-spacing:.12em;
+  color:var(--amber); font-weight:500; text-transform:uppercase;
+  border:1px solid var(--amber); border-radius:2px; padding:2pt 6pt;
+}
+.ticket .t-meta {
+  display:flex; gap:14pt; flex-wrap:wrap;
+  padding:6pt 12pt;
+  border-bottom:1px solid var(--line);
+  font-family:'IBM Plex Mono', monospace; font-size:7.5pt; letter-spacing:.08em;
+  color:var(--muted); text-transform:uppercase;
+}
+.ticket .t-meta b { color:var(--ink); font-weight:500; }
+.ticket .t-body { padding:11pt 12pt; }
+.ticket .t-body p { font-size:10pt; }
+
+.q-main {
+  font-family:'Fraunces', serif; font-style:italic; font-weight:540;
+  font-size:15pt; line-height:1.4; color:var(--ink);
+  margin:4pt 0 9pt 0;
+}
+.q-alt { list-style:none; margin-top:7pt; }
+.q-alt li {
+  padding:5pt 0 5pt 14pt; position:relative;
+  font-size:9.5pt; border-top:1px dashed var(--line);
+}
+.q-alt li::before {
+  content:"→"; position:absolute; left:0; color:var(--amber);
+  font-family:'IBM Plex Mono', monospace; font-size:8.5pt;
+}
+.t-foot {
+  padding:6pt 12pt; border-top:1px solid var(--line);
+  font-family:'IBM Plex Mono', monospace; font-size:7.5pt; letter-spacing:.08em;
+  color:var(--muted); text-transform:uppercase;
+}
+.t-foot b { color:var(--amber); font-weight:500; }
+
+.stamp {
+  position:absolute; top:-7pt; right:14pt;
+  transform:rotate(-5deg);
+  font-family:'IBM Plex Mono', monospace; font-weight:500;
+  font-size:8.5pt; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--amber);
+  border:2px solid var(--amber); border-radius:2px;
+  padding:3pt 8pt;
+  background:var(--paper);
+}
+
+/* ---------- message cards ---------- */
+.messages { margin:11pt 0; display:flex; flex-direction:column; gap:7pt; }
+.msg {
+  background:var(--card); border:1px solid var(--line); border-left:3px solid var(--amber);
+  border-radius:3px; padding:8pt 12pt;
+  max-width:138mm;
+}
+.msg:nth-child(2) { margin-left:8mm; }
+.msg:nth-child(3) { margin-left:16mm; }
+.msg .m-from {
+  font-family:'IBM Plex Mono', monospace; font-size:7pt; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--muted); margin-bottom:3pt;
+}
+.msg .m-text { font-family:'Fraunces', serif; font-style:italic; font-weight:460; font-size:11pt; line-height:1.45; }
+
+/* ---------- mechanics ---------- */
+.mech { margin-bottom:9pt; }
+.mech h3 {
+  font-family:'Fraunces', serif; font-weight:600; font-size:12.5pt;
+  margin-bottom:4pt; letter-spacing:0;
+}
+.mech h3 .n { font-family:'IBM Plex Mono', monospace; font-weight:500; font-size:9pt; color:var(--amber); margin-right:6pt; }
+
+/* ---------- pull ---------- */
+.pull {
+  font-family:'Fraunces', serif; font-style:italic; font-weight:500;
+  font-size:15.5pt; line-height:1.42;
+  margin:13pt 0; max-width:148mm;
+}
+.pull.big { font-size:19pt; }
+
+/* ---------- write-in ticket ---------- */
+.ticket.new .t-status { color:var(--ink); border-color:var(--ink); }
+.write-line {
+  display:block;
+  border-bottom:1px dashed var(--line);
+  height:9mm;
+  margin:3pt 0 8pt 0;
+}
+.write-label {
+  font-family:'IBM Plex Mono', monospace; font-size:7pt; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--muted);
+}
+
+/* ---------- compact tickets (page 3) ---------- */
+.compact .sec-head { margin-bottom:6mm; }
+.compact .ticket { margin:6pt 0; }
+.compact .t-head { padding:5pt 12pt 4pt 12pt; }
+.compact .t-id { font-size:10pt; }
+.compact .t-meta { padding:3.5pt 12pt; font-size:7pt; }
+.compact .t-body { padding:6pt 12pt; }
+.compact .q-main { font-size:12pt; line-height:1.32; margin:2pt 0 4pt 0; }
+.compact .q-alt li { padding:3pt 0 3pt 14pt; font-size:9pt; }
+.compact .t-foot { padding:3.5pt 12pt; font-size:7pt; }
+.compact .stamp { right:76pt; top:-8pt; }
+
+/* ---------- footnote ---------- */
+.footnote {
+  margin-top:8pt; padding-top:6pt; border-top:1px dashed var(--line);
+  font-size:8pt; line-height:1.5; color:var(--muted); max-width:145mm;
+}
+
+.mail { font-weight:600; color:var(--amber); text-decoration:none; }
+
+/* ---------- closing ---------- */
+.closing { display:flex; flex-direction:column; }
+.closing .top-space { height:30mm; }
+.closing .final-q {
+  font-family:'Fraunces', serif; font-style:italic; font-weight:560;
+  font-size:23pt; line-height:1.32; max-width:158mm;
+  margin:10mm 0;
+}
+.closing .final-q::before {
+  content:""; display:block; width:16mm; border-top:2.5px solid var(--amber); margin-bottom:8mm;
+}
+
+/* ---------- colophon ---------- */
+.colophon {
+  margin-top:auto;
+  display:flex; gap:8mm; align-items:flex-start;
+  border-top:1px solid var(--line); padding-top:8mm;
+  margin-bottom:6mm;
+}
+.c-photo {
+  flex:0 0 34mm; width:34mm; height:34mm;
+  border-radius:3px; overflow:hidden;
+  border:1px solid var(--line); background:var(--card);
+  display:flex; align-items:center; justify-content:center;
+}
+.c-photo img { width:100%; height:100%; object-fit:cover; display:block; }
+.c-photo .ph {
+  font-family:'Fraunces', serif; font-weight:590; font-size:22pt; color:var(--line);
+}
+.c-text { flex:1; }
+.c-text p { font-size:9pt; line-height:1.5; color:var(--ink); margin-bottom:6pt; }
+
+/* ---------- page footer ---------- */
+.pfoot {
+  position:absolute; left:22mm; right:22mm; bottom:11mm;
+  display:flex; justify-content:space-between;
+  font-family:'IBM Plex Mono', monospace; font-size:6.8pt; letter-spacing:.1em;
+  color:var(--muted); text-transform:uppercase;
+  border-top:1px solid var(--line); padding-top:5pt;
+}
+
+/* ---------- print ---------- */
+@page { size:A4; margin:0; }
+@media print {
+  body { background:none; }
+  .page {
+    margin:0; box-shadow:none;
+    width:210mm; height:297mm;
+    page-break-after:always;
+  }
+  .page:last-child { page-break-after:auto; }
+  * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+}
+</style>
+</head>
+<body>
+
+<!-- ================= COVER ================= -->
+<section class="page cover">
+  <div class="stamp-time">
+    <span>09:47 &nbsp;·&nbsp; MELLEM TO MØDER</span>
+    <span>MELLEM MØDERNE</span>
+  </div>
+
+  <h1>Forandringens håndtag<br>sidder indvendig</h1>
+  <div class="subtitle">VÆRKTØJ 03 — DEN ENESTE VARIABEL</div>
+
+  <div class="lead">
+    <p>Du sidder på en 1-1. Du stiller et spørgsmål, der lyder nysgerrigt, og som er venligt ment. Alligevel sker der noget på den anden side af bordet: Skuldrene løfter sig, svaret bliver en forklaring, og samtalen begynder at ligne et forhør med gode manerer.</p>
+    <p>Det er ikke fordi, du spørger for meget. Det er fordi, spørgsmålet peger den forkerte vej. Det leder efter en årsag inde i personen. Og når spørgsmålet kun kan pege indad, bliver din kollega den eneste variabel i ligningen.</p>
+    <p>Det her værktøj handler om at flytte ét spørgsmål. Ikke ti. Ét. Fra at lede efter fejlen i mennesket, til at genindsætte verden omkring det.</p>
+  </div>
+
+  <div class="promise">Det gode budskab: <strong>Du skal ikke lære nye spørgsmål udenad.</strong> Du skal fange ét af dine egne, og vende det om.</div>
+
+  <div class="series-note">Værktøj 3 i en samling, der bygges løbende. De to første, <em>Det usynlige arbejde</em> og <em>Motivation er en startmotor</em>, kan læses på mellemmoederne.dk.</div>
+
+  <div class="pfoot">
+    <span>Forandringens håndtag sidder indvendig · Værktøj 03</span>
+    <span>Mellem Møderne · lasse@mellemmoederne.dk</span>
+  </div>
+</section>
+
+<!-- ================= DEL 1 ================= -->
+<section class="page">
+  <div class="sec-head">
+    <span class="eyebrow"><span class="amber">DEL 1</span> · GENKENDELSEN</span>
+    <h2>Jeg troede, jeg var nysgerrig</h2>
+    <hr class="headrule">
+  </div>
+
+  <div class="body-col">
+    <p>Jeg har siddet i mange 1-1'er. Og jeg har af flere omgange været, hvad jeg dengang ville have kaldt, dygtig til at spørge. Mine klassikere lød sådan her:</p>
+  </div>
+
+  <div class="messages">
+    <div class="msg">
+      <div class="m-from">MIG · 1-1, EN TILFÆLDIG TIRSDAG</div>
+      <div class="m-text">Hvorfor er der ikke fremgang på opgaven?</div>
+    </div>
+    <div class="msg">
+      <div class="m-from">MIG · SAMME MØDE, LIDT SENERE</div>
+      <div class="m-text">Hvorfor har der ikke været en ny status siden sidst?</div>
+    </div>
+    <div class="msg">
+      <div class="m-from">MIG · PÅ VEJ UD AD DØREN</div>
+      <div class="m-text">Sig til, hvis du har brug for hjælp.</div>
+    </div>
+  </div>
+
+  <div class="body-col">
+    <p>Kig på dem en ekstra gang. De er ikke ondskabsfulde. De er ikke engang dårlige. De lyder omsorgsfulde, og de var ment sådan.</p>
+    <p>Men de to første bærer en skjult præmis: at årsagen bor i personen. Et hvorfor giver kun ét sted at lede, og det er indad. Så svaret bliver et forsvar eller en undskyldning. Sjældent en opdagelse.</p>
+    <p>Den tredje er den lumske. Den lyder som en åben dør. Men den lægger hele ansvaret for at bede om hjælp over på den, der har sværest ved det. Man skal først erkende, at man er i vanskeligheder. Så skal man overvinde at indrømme det. Og så skal man time det rigtigt. Den, der virkelig har brug for hjælpen, er præcis den, der ikke siger til.</p>
+    <p class="pull">Den skjulte bias er ikke ond. Den er usynlig. Og det er derfor, den virker.</p>
+    <p>Resultatet er en samtale, hvor din kollega bruger energien på at forklare sig i stedet for at tænke. Du får et svar, du kunne have gættet på forhånd. Og det, der ligger bag ved det første svar, det du i virkeligheden sad der for at høre, kommer aldrig frem.</p>
+  </div>
+
+  <div class="pfoot"><span>Forandringens håndtag sidder indvendig</span><span>02</span></div>
+</section>
+
+<!-- ================= DEL 2 ================= -->
+<section class="page compact">
+  <div class="sec-head">
+    <span class="eyebrow"><span class="amber">DEL 2</span> · MEKANIKKEN</span>
+    <h2>Fra årsag til mønster</h2>
+    <hr class="headrule">
+  </div>
+
+  <div class="body-col">
+    <p>Skellet er gammelt og gennemprøvet: Der findes spørgsmål, der leder efter en <em>årsag</em>, og spørgsmål, der leder efter et <em>mønster</em>. De første kaldes lineære. De peger bagud og indad og inviterer til forsvar. De andre kaldes cirkulære. De peger på tid, relationer og sammenhænge og inviterer til at kigge rundt.</p>
+    <p>Forskellen lyder akademisk. Det er den ikke. Se, hvad der sker med mine egne klassikere, når de bliver vendt om:</p>
+  </div>
+
+  <div class="ticket">
+    <div class="stamp">VENLIGT MENT</div>
+    <div class="t-head">
+      <span class="t-id">SAG 03<span class="dash">-</span>A</span>
+      <span class="t-status">LINEÆR</span>
+    </div>
+    <div class="t-meta"><span>KONTEKST: <b>OPGAVEN UDEN FREMDRIFT</b></span><span>RETNING: <b>INDAD</b></span></div>
+    <div class="t-body">
+      <div class="q-main">Hvorfor er der ikke fremgang på opgaven?</div>
+      <ul class="q-alt">
+        <li>Hvornår på ugen har opgaven de bedste betingelser?</li>
+        <li>Hvad sker der de dage, hvor den ingen får?</li>
+      </ul>
+    </div>
+    <div class="t-foot">FLYTNING · FRA <b>FORKLARING</b> TIL <b>OMSTÆNDIGHEDER</b></div>
+  </div>
+
+  <div class="ticket">
+    <div class="t-head">
+      <span class="t-id">SAG 03<span class="dash">-</span>B</span>
+      <span class="t-status">LINEÆR</span>
+    </div>
+    <div class="t-meta"><span>KONTEKST: <b>DEN MANGLENDE STATUS</b></span><span>RETNING: <b>INDAD</b></span></div>
+    <div class="t-body">
+      <div class="q-main">Hvorfor har der ikke været en ny status siden sidst?</div>
+      <ul class="q-alt">
+        <li>Hvem venter på den her status?</li>
+        <li>Hvad tror du, de bruger den til, når de får den?</li>
+      </ul>
+    </div>
+    <div class="t-foot">FLYTNING · FRA <b>PLIGT</b> TIL <b>MENING</b></div>
+  </div>
+
+  <div class="ticket">
+    <div class="t-head">
+      <span class="t-id">SAG 03<span class="dash">-</span>C</span>
+      <span class="t-status">PSEUDO-ÅBEN</span>
+    </div>
+    <div class="t-meta"><span>KONTEKST: <b>HJÆLPETILBUDDET</b></span><span>RETNING: <b>TILBAGE TIL AFSENDER</b></span></div>
+    <div class="t-body">
+      <div class="q-main">Sig til, hvis du har brug for hjælp.</div>
+      <ul class="q-alt">
+        <li>Hvilken del af det her ville du helst ikke sidde alene med?</li>
+      </ul>
+    </div>
+    <div class="t-foot">FLYTNING · FRA <b>ÅBEN DØR</b> TIL <b>REEL ADGANG</b></div>
+  </div>
+
+  <div class="body-col">
+    <p>De vendte versioner fritager ikke nogen for ansvar. De genindsætter verden omkring personen: tid, relationer, mønstre, undtagelser. Pludselig er der flere steder at kigge hen end indad. Og den, der før stod i vidneskranken, får lov at træde ud og se på sagen sammen med dig.</p>
+  </div>
+
+  <div class="footnote">Skellet mellem lineære og cirkulære spørgsmål stammer fra den canadiske familieterapeut Karl Tomm og hans arbejde med interventive spørgsmål. Det her er min oversættelse til en travl hverdag, ikke hans teori.</div>
+
+  <div class="pfoot"><span>Forandringens håndtag sidder indvendig</span><span>03</span></div>
+</section>
+
+<!-- ================= DEL 3 ================= -->
+<section class="page">
+  <div class="sec-head">
+    <span class="eyebrow"><span class="amber">DEL 3</span> · BEVÆGELSEN</span>
+    <h2>Ét spørgsmål. Ikke et pensum.</h2>
+    <hr class="headrule">
+  </div>
+
+  <div class="body-col">
+    <p>Du skal ikke gå herfra med en ny spørgeteknik. Du skal gå med én bevægelse, der kan afprøves på din næste 1-1:</p>
+
+    <div class="mech">
+      <h3><span class="n">01</span>Fang det</h3>
+      <p>Læg mærke til det øjeblik, hvor et <em>hvorfor</em> er på vej ud af munden på dig. Det kommer. Det gør det altid.</p>
+    </div>
+
+    <div class="mech">
+      <h3><span class="n">02</span>Vend det</h3>
+      <p>Skift retningen. Fra årsag til mønster. <em>Hvorfor</em> bliver til <em>hvornår</em>, <em>hvem</em> eller <em>hvad sker der, når</em>. Du behøver ikke ramme perfekt. Du skal bare pege væk fra personen og ud mod verden omkring dem.</p>
+    </div>
+
+    <div class="mech">
+      <h3><span class="n">03</span>Lad svaret få plads</h3>
+      <p>Og så den svære del: Ti stille bagefter. Det vendte spørgsmål åbner et større rum, og det tager tid at kigge sig omkring i det. Fyld ikke pausen ud. Den arbejder for jer begge.</p>
+    </div>
+  </div>
+
+  <div class="ticket new">
+    <div class="t-head">
+      <span class="t-id">SAG 03<span class="dash">-</span>DIN</span>
+      <span class="t-status">KLAR</span>
+    </div>
+    <div class="t-meta"><span>KONTEKST: <b>DIN NÆSTE 1-1</b></span><span>RETNING: <b>UDAD</b></span></div>
+    <div class="t-body">
+      <p>Skriv det hvorfor-spørgsmål ned, du oftest stiller. Skriv så den vendte version ved siden af. Tag den med til mødet. Ikke i hovedet. På papir.</p>
+      <span class="write-label">MIT LINEÆRE SPØRGSMÅL</span>
+      <span class="write-line"></span>
+      <span class="write-label">DEN VENDTE VERSION</span>
+      <span class="write-line"></span>
+    </div>
+  </div>
+
+  <div class="body-col">
+    <p class="pull big">Det stærkeste øjeblik er ikke dit spørgsmål. Det er det sekund, hvor din kollega opdager, at de ikke er den eneste variabel.</p>
+  </div>
+
+  <div class="pfoot"><span>Forandringens håndtag sidder indvendig</span><span>04</span></div>
+</section>
+
+<!-- ================= CLOSING ================= -->
+<section class="page closing">
+  <div class="top-space"></div>
+
+  <span class="eyebrow"><span class="amber">HVAD ER DET NÆSTE</span></span>
+  <div class="body-col" style="margin-top:5mm;">
+    <p>Det her værktøj holdt sig med vilje til ét skel. Fundamentet under det, evnen til at lytte uden at vente på sin egen tur, fortjener sit eget værktøj. Det gør Tomms to sidste spørgsmålstyper også. De kommer, efterhånden som samlingen bygges.</p>
+    <p>Indtil da, ét spørgsmål:</p>
+  </div>
+
+  <div class="final-q">Hvilket spørgsmål stiller du oftest, hvor du allerede kender det svar, du vil frem til?</div>
+
+  <div class="colophon">
+    <div class="c-photo"><img class="about-photo" src="/assets/img/lasse.jpg" alt="Lasse B. Schnipper"></div>
+    <div class="c-text">
+      <span class="eyebrow" style="display:block; margin-bottom:4pt;"><span class="amber">OM AFSENDEREN</span></span>
+      <p>Jeg hedder Lasse. Selverklæret introvert, tillært ekstrovert. Jeg har brugt knap 15 år i IT, de seneste fem som leder. Jeg var engang den, der ventede til jeg kendte folk, før jeg talte. I dag vælger jeg selv hvornår, og det valg er hele forskellen. Mellem Møderne er mit arbejde med at gøre stille kompetence synlig, uden at nogen skal spille en anden.</p>
+      <p>Arbejder du eller dit team med det samme, og vil du længere end ét vendt spørgsmål, så skriv til mig på <a class="mail" href="mailto:lasse@mellemmoederne.dk">lasse@mellemmoederne.dk</a>.</p>
+    </div>
+  </div>
+
+  <div class="pfoot">
+    <span>Forandringens håndtag sidder indvendig · Værktøj 03</span>
+    <span>Mellem Møderne · lasse@mellemmoederne.dk</span>
+  </div>
+</section>
+
+</body>
+</html>
