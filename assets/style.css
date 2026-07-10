@@ -74,6 +74,7 @@ nav .wrap { display: flex; align-items: center; justify-content: space-between; 
 
 /* ---- hero ---- */
 .hero { padding: 96px 0 80px; }
+.hero .wrap { max-width: 720px; margin-left: auto; margin-right: auto; }
 .hero .label { margin-bottom: 22px; }
 .hero h1 {
   font-family: 'Source Serif 4', Georgia, serif; font-weight: 400;
