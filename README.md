@@ -5,7 +5,9 @@ Offentlig landingsside for Mellem Møderne (Lasse B. Schnipper). Ren statisk HTM
 ## Struktur
 
 ```
-index.html                                Forside (om mig, ydelser, hvorfor, presse, faq, kontakt)
+index.html                                Forside (hero, værdier, tilbud, hvorfor mig, robusthed, historier, om mig, presse, faq, kontakt)
+tanker/index.html                         Genereret: oversigt over historierne, én sektion pr. værdi
+tanker/<slug>/index.html                  Genereret: én side pr. historie
 vaerktoejer/index.html                    Statisk oversigt over værktøjsserien
 vaerktoejer/<slug>/index.html             Én statisk side pr. værktøj
 privatliv/index.html                      Privatlivsside
@@ -13,6 +15,9 @@ assets/style.css                          Fælles design (farver, typografi, kom
 assets/site.js                            Theme-toggle og FAQ-toggle
 assets/img/lasse.jpg                      Portrætfoto
 assets/og/                                Statiske OG-billeder (1200×630) pr. værktøj
+assets/tanker/                            Tegninger til historierne
+content/tanker/*.md                       Kilden til /tanker/ (kopieret fra vidensbanken MellemModerne/content/website/tanker/)
+tools/build-tanker.py                     Bygger /tanker/ og forsidens "Historierne bag" ud fra content/tanker/
 content/                                  Kildemateriale for værktøjerne (ikke publiceret direkte)
 ```
 
@@ -24,6 +29,13 @@ Værktøjerne er håndskrevne statiske sider, ikke en genereret liste. Der er in
 2. Tilføj `og:title`, `og:description`, `og:image` (se eksisterende sider) og generér et 1200×630 OG-billede til `assets/og/<slug>.png`.
 3. Tilføj et kort til `vaerktoejer/index.html` der linker til den nye side.
 4. Commit og push til `main`. Cloudflare Pages bygger og udgiver automatisk, ingen andre skridt.
+
+## Sådan tilføjer du en ny historie til /tanker/
+
+1. Læg `NN-slug.md` i `content/tanker/` med samme frontmatter som de andre (titel, vaerdi, dato, billede, teaser, pointe). `vaerdi` skal være en af værdierne i `VALUES` øverst i `tools/build-tanker.py`.
+2. Har historien en tegning, så læg den i `assets/tanker/` og skriv filnavnet i `billede:`. Ellers `billede: ingen`, så viser kortet pointen som citat.
+3. Kør `python tools/build-tanker.py` fra repoets rod. Scriptet skriver `tanker/` og opdaterer blokken mellem `<!-- tanker:featured -->`-markørerne i `index.html`.
+4. Commit både markdown og den genererede HTML, og push.
 
 ## PDF-format
 
