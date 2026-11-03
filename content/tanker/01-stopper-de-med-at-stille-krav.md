@@ -1,5 +1,5 @@
 ---
-titel: "60 procent af os siger op, fordi vi ikke føler os hørt eller set"
+titel: "Stopper de med at stille krav, savner de formentlig dit nærvær"
 vaerdi: Hørt og set
 dato: 2025-04-11
 visninger: 1351

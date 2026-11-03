@@ -214,6 +214,14 @@ for idx, p in enumerate(posts):
           page(f"{p['titel']} · Lasse B. Schnipper", p["teaser"], f"/tanker/{p['slug']}/", body,
                og_type="article", image=p["billede"]))
 
+# Fjern genererede sider for historier, der er omdøbt eller slettet.
+for old in glob.glob(os.path.join(ROOT, "tanker", "*", "index.html")):
+    slug = os.path.basename(os.path.dirname(old))
+    if slug not in BY and "Genereret af tools/build-tanker.py" in open(old, encoding="utf-8").read():
+        os.remove(old)
+        os.rmdir(os.path.dirname(old))
+        print(f"fjernet: tanker/{slug}/")
+
 # ---------- forsidens "Historierne bag" ----------
 idx_path = os.path.join(ROOT, "index.html")
 front = open(idx_path, encoding="utf-8").read()
